@@ -6,6 +6,10 @@ from interfaces.payment_service_interface import PaymentServiceInterface
 class PaymentServiceFactory:
     @staticmethod
     def create(payment_method: PaymentMethod) -> PaymentServiceInterface:
-        if payment_method == PaymentMethod.PAYPAL: return PayPalService()
-        elif payment_method == PaymentMethod.APPLE_PAY: return ApplePayService()
-        raise ValueError(f"Unsupported payment method: {payment_method}")
+        service_mapping = {
+            PaymentMethod.PAYPAL: PayPalService,
+            PaymentMethod.APPLE_PAY: ApplePayService,
+        }
+        service_class = service_mapping.get(payment_method)
+        if service_class: return service_class()
+        else: raise ValueError(f"Unsupported payment method: {payment_method}")

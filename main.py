@@ -19,11 +19,11 @@ app = FastAPI()
 def on_startup():
     create_db_and_tables()
 
-@router.post("pay", response_model=PaymentResponse)
+@router.post("/pay", response_model=PaymentResponse)
 async def process_payment(payment_request: PaymentRequest, session: SessionDep):
     return await PaymentService.process_payment_(payment_request, session)
 
-@router.get("transaction")
+@router.get("/transaction")
 def get_transactions(
     session: SessionDep,
     offset: int = 0,
